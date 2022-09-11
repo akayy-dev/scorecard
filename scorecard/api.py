@@ -7,11 +7,13 @@ class ScoreCard:
 	def __init__(self, API_KEY: str) -> None:
 		self.API_KEY = API_KEY
 
-	def search(self, name: str) -> College:
+	def search(self, name: str, page=0, per_page=20) -> College:
+		"""Search for a college by name."""
 		params = {
 			'api_key': self.API_KEY,
 			'school.name': name,
-			'_per_page': 2,
+			'page': page,
+			'per_page': per_page,
 			'_fields': 'school,id'
                 }
 		r = requests.get(
