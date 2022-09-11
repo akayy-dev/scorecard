@@ -14,3 +14,9 @@ class College:
 
 	def __str__(self) -> str:
 		return f'{self.data["school.name"]} - {self.data["id"]}'
+
+	def __eq__(self, other: object) -> bool:
+		if self.data['id'] == other.data['id']:
+			return True
+		else:
+			return False
