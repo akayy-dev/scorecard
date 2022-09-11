@@ -8,6 +8,6 @@ class College:
 		return self.data['school.name']
 
 	@property
-	def location(self) -> list:
+	def location(self) -> dict:
 		"""Return the state and city of the college."""
 		return {'city': self.data['school.city'], 'state': self.data['school.state']}
