@@ -11,3 +11,6 @@ class College:
 	def location(self) -> dict:
 		"""Return the state and city of the college."""
 		return {'city': self.data['school.city'], 'state': self.data['school.state']}
+
+	def __str__(self) -> str:
+		return f'{self.data["school.name"]} - {self.data["id"]}'
