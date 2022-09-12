@@ -16,7 +16,8 @@ class College:
 	@property
 	def gender_breakdown(self) -> dict:
 		"""Return the percentage of each gender in a dictionary."""
-		return {'men': self.data[f'{self.year}.student.demographics.men'] * 100, 'women': self.data[f'{self.year}.student.demographics.women'] * 100}
+		# Rounds the percentage to two decimal places.
+		return {'men': '%.2f' % (self.data[f'{self.year}.student.demographics.men'] * 100), 'women': '%.2f' % (self.data[f'{self.year}.student.demographics.women'] * 100)}
 
 	@property
 	def undergrad(self) -> int:
