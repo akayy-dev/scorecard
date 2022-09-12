@@ -15,7 +15,7 @@ class ScoreCard:
 			'page': page,
 			'per_page': per_page,
 			'_fields': 'school,id'
-                }
+                    }
 		r = requests.get(
 			'https://api.data.gov/ed/collegescorecard/v1/schools.json', params=params)
 		results = r.json()['results']
@@ -25,3 +25,19 @@ class ScoreCard:
 			college_list.append(College(data=i))
 
 		return college_list
+
+	def get_by_id(self, id: int):
+		"""Query a college by it's id."""
+		params = {
+			'api_key': self.API_KEY,
+			'_fields': 'school,id',
+			'id': id,
+                    }
+		r = requests.get(
+			'https://api.data.gov/ed/collegescorecard/v1/schools.json', params=params)
+
+		# Despite only returning one result, the API returns a list with one element.
+		# So I need to append the [0] to select the first result.
+		results = r.json()['results'][0]
+
+		return College(data=results)
