@@ -1,6 +1,6 @@
 """Interface with the collegescorecard API."""
 import requests
-from objects import College
+from .objects import College
 
 
 class ScoreCard:
