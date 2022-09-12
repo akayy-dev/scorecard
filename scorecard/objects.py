@@ -13,6 +13,16 @@ class College:
 		"""Return the state and city of the college."""
 		return {'city': self.data[f'{self.year}.school.city'], 'state': self.data[f'{self.year}.school.state'], 'zip': self.data[f'{self.year}.school.zip']}
 
+	@property
+	def gender_breakdown(self) -> dict:
+		"""Return the percentage of each gender in a dictionary."""
+		return {'men': self.data[f'{self.year}.student.demographics.men'] * 100, 'women': self.data[f'{self.year}.student.demographics.women'] * 100}
+
+	@property
+	def undergrad(self) -> int:
+		"""Return the amount of undergrad students in the college."""
+		return self.data[f'{self.year}.student.size']
+
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
 
