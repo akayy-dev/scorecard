@@ -18,13 +18,19 @@ class College:
 		"""Return the percentage of each gender in a dictionary."""
 		# Rounds the percentage to two decimal places.
 		men = round((self.data[f'{self.year}.student.demographics.men'] * 100), 2)
-		women = round( (self.data[f'{self.year}.student.demographics.women'] * 100), 2)
+		women = round(
+			(self.data[f'{self.year}.student.demographics.women'] * 100), 2)
 		return {'men': men, 'women': women}
 
 	@property
 	def undergrad(self) -> int:
 		"""Return the amount of undergrad students in the college."""
 		return self.data[f'{self.year}.student.size']
+
+	@property
+	def region(self) -> int:
+		'''Return the colleges region code.'''
+		return self.data[f'{self.year}.school.region_id']
 
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
