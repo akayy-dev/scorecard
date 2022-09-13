@@ -32,6 +32,16 @@ class College:
 		'''Return the colleges region code.'''
 		return self.data[f'{self.year}.school.region_id']
 
+	@property
+	def sat_scores(self) -> dict:
+		'''Return the midpoint of SAT scores.'''
+		math = self.data[f'{self.year}.admissions.sat_scores.midpoint.math']
+		writing = self.data[f'{self.year}.admissions.sat_scores.midpoint.writing']
+		critical_reading = self.data[f'{self.year}.admissions.sat_scores.midpoint.critical_reading']
+		overall = self.data[f'{self.year}.admissions.sat_scores.average.overall']
+
+		return {'math': math, 'writing': writing, 'critical_reading': critical_reading, 'overall': overall}
+
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
 
