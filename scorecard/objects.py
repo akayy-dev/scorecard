@@ -33,6 +33,14 @@ class College:
 		return self.data[f'{self.year}.school.region_id']
 
 	@property
+	def acceptance_rate(self) -> float:
+		'''Return the admission rate.'''
+		# Make the rate a percentage with two decimal places.
+		percentage = round(
+			(self.data[f'{self.year}.admissions.admission_rate.overall'] * 100), 2)
+		return percentage
+
+	@property
 	def sat_scores(self) -> dict:
 		'''Return the midpoint of SAT scores.'''
 		math = self.data[f'{self.year}.admissions.sat_scores.midpoint.math']
