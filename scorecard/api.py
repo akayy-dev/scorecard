@@ -14,7 +14,7 @@ class ScoreCard:
 			'school.name': name,
 			'page': page,
 			'per_page': per_page,
-			'_fields': f'{year}.school,{year}.student,{year}.admissions,id'
+			'_fields': f'{year}.school,{year}.student,{year}.admissions,{year}.cost,id',
                     }
 		r = requests.get(
 			'https://api.data.gov/ed/collegescorecard/v1/schools.json', params=params)
@@ -30,7 +30,7 @@ class ScoreCard:
 		"""Query a college by it's id."""
 		params = {
 			'api_key': self.API_KEY,
-			'_fields': f'{year}.school,{year}.student,{year}.admissions,id',
+			'_fields': f'{year}.school,{year}.student,{year}.admissions,{year}.cost,id',
 			'id': id,
                     }
 		r = requests.get(

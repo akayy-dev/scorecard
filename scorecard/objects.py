@@ -50,6 +50,10 @@ class College:
 
 		return {'math': math, 'writing': writing, 'critical_reading': critical_reading, 'overall': overall}
 
+	@property
+	def tuition(self) -> dict:
+		return {'in state': self.data[f'{self.year}.cost.tuition.in_state'], 'out of state': self.data[f'{self.year}.cost.tuition.out_of_state']}
+
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
 
