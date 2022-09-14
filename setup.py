@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-	name='scorecard',
+	name='college-scorecard',
 	description='A python library for collegescorecard.ed.gov',
 	author='Ahadu Kebede',
 	author_email='ahadukebede@gmail.com',
