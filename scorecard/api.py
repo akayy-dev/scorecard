@@ -30,7 +30,7 @@ class ScoreCard:
 		"""Query a college by it's id."""
 		params = {
 			'api_key': self.API_KEY,
-			'_fields': f'{year}.school,{year}.student,id',
+			'_fields': f'{year}.school,{year}.student,{year}.admissions,id',
 			'id': id,
                     }
 		r = requests.get(
