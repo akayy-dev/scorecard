@@ -2,12 +2,14 @@
 import requests
 from .objects import College
 
+from typing import List
+
 
 class ScoreCard:
 	def __init__(self, API_KEY: str) -> None:
 		self.API_KEY = API_KEY
 
-	def search(self, name: str, page=0, per_page=20, year='latest') -> list:
+	def search(self, name: str, page=0, per_page=20, year='latest') -> List[College]:
 		"""Search for a college by name."""
 		params = {
 			'api_key': self.API_KEY,
