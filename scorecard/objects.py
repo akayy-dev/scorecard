@@ -1,5 +1,28 @@
+class Tuition:
+	def __init__(self, data: dict, year: int) -> None:
+		self.data = data
+		self.year = year
+
+	@property
+	def room_and_board(self) -> float:
+		"""Cost of attendance: off-campus room and board"""
+		return self.data['roomboard.oncampus']
+
+	@property
+	def overall_median(self) -> int:
+		"""Overall median for average net price"""
+		return self.data['avg_net_price.consumer.overall_median']
+
+	def get_tuition(self, in_state=True) -> int:
+		"""Tuition and fees """
+		if in_state:
+			return self.data['tuition.in_state']
+		else:
+			return self.data['tuition.out_of_state']
+
+
 class College:
-	def __init__(self, data: list, year: str) -> None:
+	def __init__(self, data: dict, year: str) -> None:
 		self.data = data
 		self.year = year
 
@@ -51,8 +74,18 @@ class College:
 		return {'math': math, 'writing': writing, 'critical_reading': critical_reading, 'overall': overall}
 
 	@property
-	def tuition(self) -> dict:
-		return {'in state': self.data[f'{self.year}.cost.tuition.in_state'], 'out of state': self.data[f'{self.year}.cost.tuition.out_of_state']}
+	def cost(self) -> Tuition:
+		# Send ONLY the cost data to the Tuition object.
+		# TODO: Strip the self.year from the key name, as to avoid needing to pass the year to Tuition.
+		cost_dict = {}
+		keys_list = list(self.data.keys())
+
+		key: str
+		for key in keys_list:
+			if key.startswith(f'{self.year}.cost'):
+				strip_key = len(f'{self.year}.cost') + 1
+				cost_dict[key[strip_key:]] = self.data[key]
+		return Tuition(data=cost_dict, year=self.year)
 
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
