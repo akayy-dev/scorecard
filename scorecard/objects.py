@@ -1,6 +1,34 @@
 from typing import Dict
 
 
+class Admissions:
+	def __init__(self, data) -> None:
+		self.data = data
+
+	@property
+	def rate(self) -> float:
+		"""Admission rate"""
+		return round(self.data['admission_rate.overall'] * 100, 3)
+
+	@property
+	def act_scores(self) -> Dict[str, int]:
+		"""Midpoint of the ACT scores"""
+		math = self.data['act_scores.midpoint.math']
+		english = self.data['act_scores.midpoint.english']
+		cumulative = self.data['act_scores.midpoint.cumulative']
+
+		return {'math': math, 'english': english, 'cumulative': cumulative}
+
+	@property
+	def sat_scores(self) -> Dict[str, int]:
+		"""Midpoint of SAT scores at the institution"""
+		english = self.data['sat_scores.midpoint.critical_reading']
+		math = self.data['sat_scores.midpoint.math']
+		cumulative = english + math
+
+		return {'english': english, 'math': math, 'cumulative': cumulative}
+
+
 class Tuition:
 	def __init__(self, data: dict) -> None:
 		self.data = data
@@ -77,7 +105,7 @@ class College:
 
 	@property
 	def name(self) -> str:
-		"""The name of the college."""
+		"""Institution name"""
 		return self.data[f'{self.year}.school.name']
 
 	@property
@@ -91,22 +119,16 @@ class College:
 		return self.data[f'{self.year}.school.region_id']
 
 	@property
-	def acceptance_rate(self) -> float:
-		'''Return the admission rate.'''
-		# Make the rate a percentage with two decimal places.
-		percentage = round(
-			(self.data[f'{self.year}.admissions.admission_rate.overall'] * 100), 2)
-		return percentage
+	def admissions(self) -> Admissions:
+		admissions_dict = {}
+		keys_list = list(self.data.keys())
 
-	@property
-	def sat_scores(self) -> dict:
-		'''Return the midpoint of SAT scores.'''
-		math = self.data[f'{self.year}.admissions.sat_scores.midpoint.math']
-		writing = self.data[f'{self.year}.admissions.sat_scores.midpoint.writing']
-		critical_reading = self.data[f'{self.year}.admissions.sat_scores.midpoint.critical_reading']
-		overall = self.data[f'{self.year}.admissions.sat_scores.average.overall']
-
-		return {'math': math, 'writing': writing, 'critical_reading': critical_reading, 'overall': overall}
+		key: str
+		for key in keys_list:
+			if key.startswith(f'{self.year}.admissions'):
+				strip_key = len(f'{self.year}.admissions') + 1
+				admissions_dict[key[strip_key:]] = self.data[key]
+		return Admissions(data=admissions_dict)
 
 	@property
 	def student(self) -> StudentBody:
