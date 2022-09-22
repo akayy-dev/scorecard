@@ -86,11 +86,6 @@ class College:
 		return {'city': self.data[f'{self.year}.school.city'], 'state': self.data[f'{self.year}.school.state'], 'zip': self.data[f'{self.year}.school.zip']}
 
 	@property
-	def undergrad(self) -> int:
-		"""Return the amount of undergrad students in the college."""
-		return self.data[f'{self.year}.student.size']
-
-	@property
 	def region(self) -> int:
 		'''Return the colleges region code.'''
 		return self.data[f'{self.year}.school.region_id']
