@@ -1,11 +1,13 @@
+from typing import Dict
+
+
 class Tuition:
-	def __init__(self, data: dict, year: int) -> None:
+	def __init__(self, data: dict) -> None:
 		self.data = data
-		self.year = year
 
 	@property
 	def room_and_board(self) -> float:
-		"""Cost of attendance: off-campus room and board"""
+		"""Cost of attendance: on-campus room and board"""
 		return self.data['roomboard.oncampus']
 
 	@property
@@ -19,6 +21,53 @@ class Tuition:
 			return self.data['tuition.in_state']
 		else:
 			return self.data['tuition.out_of_state']
+
+
+class StudentBody:
+	def __init__(self, data) -> None:
+		self.data = data
+
+	@property
+	def undergrad_size(self) -> int:
+		"""Enrollment of undergraduate certificate/degree-seeking students """
+		return self.data['size']
+
+	@property
+	def graduate_size(self) -> int:
+		return self.data['grad_students']
+
+	@property
+	def racial_diversity(self) -> Dict[str, float]:
+		# Student data, rounded to 2 decimal places.
+		white = round(self.data['demographics.race_ethnicity.white'] * 100, 3)
+		black = round(self.data['demographics.race_ethnicity.black'] * 100, 3)
+		hispanic = round(self.data['demographics.race_ethnicity.hispanic'] * 100, 3)
+		asian = round(self.data['demographics.race_ethnicity.asian'] * 100, 3)
+		aian = round(self.data['demographics.race_ethnicity.aian'] * 100, 3)
+		nhpi = round(self.data['demographics.race_ethnicity.nhpi'] * 100, 3)
+		biracial = round(
+			self.data['demographics.race_ethnicity.two_or_more'] * 100, 3)
+		alien = round(
+			self.data['demographics.race_ethnicity.non_resident_alien'] * 100, 3)
+		unknown = round(self.data['demographics.race_ethnicity.unknown'] * 100, 3)
+
+		return {'white': white,
+                    'black': black,
+                    'hispanic': hispanic,
+                    'asian': asian,
+                    'native american': aian,
+                    'hawaiian': nhpi,
+                    'biracial': biracial,
+                    'alien': alien,
+                    'unknown': unknown,
+          }
+
+	@property
+	def gender_breakdown(self) -> Dict[str, float]:
+		"""Return the gender breakdown of a college"""
+		men = round(self.data['demographics.men'] * 100, 3)
+		women = round(self.data['demographics.women'] * 100, 3)
+		return {'men': men, 'women': women}
 
 
 class College:
@@ -35,15 +84,6 @@ class College:
 	def location(self) -> dict:
 		"""Return the state and city of the college."""
 		return {'city': self.data[f'{self.year}.school.city'], 'state': self.data[f'{self.year}.school.state'], 'zip': self.data[f'{self.year}.school.zip']}
-
-	@property
-	def gender_breakdown(self) -> dict:
-		"""Return the percentage of each gender in a dictionary."""
-		# Rounds the percentage to two decimal places.
-		men = round((self.data[f'{self.year}.student.demographics.men'] * 100), 2)
-		women = round(
-			(self.data[f'{self.year}.student.demographics.women'] * 100), 2)
-		return {'men': men, 'women': women}
 
 	@property
 	def undergrad(self) -> int:
@@ -74,9 +114,19 @@ class College:
 		return {'math': math, 'writing': writing, 'critical_reading': critical_reading, 'overall': overall}
 
 	@property
+	def student(self) -> StudentBody:
+		student_dict = {}
+		keys_list = list(self.data.keys())
+
+		key: str
+		for key in keys_list:
+			if key.startswith(f'{self.year}.student'):
+				strip_key = len(f'{self.year}.student') + 1
+				student_dict[key[strip_key:]] = self.data[key]
+		return StudentBody(data=student_dict)
+
+	@property
 	def cost(self) -> Tuition:
-		# Send ONLY the cost data to the Tuition object.
-		# TODO: Strip the self.year from the key name, as to avoid needing to pass the year to Tuition.
 		cost_dict = {}
 		keys_list = list(self.data.keys())
 
@@ -85,7 +135,7 @@ class College:
 			if key.startswith(f'{self.year}.cost'):
 				strip_key = len(f'{self.year}.cost') + 1
 				cost_dict[key[strip_key:]] = self.data[key]
-		return Tuition(data=cost_dict, year=self.year)
+		return Tuition(data=cost_dict)
 
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
