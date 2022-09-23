@@ -44,7 +44,7 @@ class Tuition:
 		return self.data['avg_net_price.consumer.overall_median']
 
 	def get_tuition(self, in_state=True) -> int:
-		"""Tuition and fees """
+		"""Tuition and fees"""
 		if in_state:
 			return self.data['tuition.in_state']
 		else:
@@ -103,6 +103,18 @@ class College:
 		self.data = data
 		self.year = year
 
+	def __clean_dict(self, category: str) -> dict:
+		"""Strip the year and category from a dictionarys keys"""
+		clean_dict = {}
+		keys_list = list(self.data.keys())
+
+		key: str
+		for key in keys_list:
+			if key.startswith(f'{self.year}.{category}'):
+				strip_key = len(f'{self.year}.{category}') + 1
+				clean_dict[key[strip_key:]] = self.data[key]
+		return clean_dict
+
 	@property
 	def name(self) -> str:
 		"""Institution name"""
@@ -120,39 +132,18 @@ class College:
 
 	@property
 	def admissions(self) -> Admissions:
-		admissions_dict = {}
-		keys_list = list(self.data.keys())
-
-		key: str
-		for key in keys_list:
-			if key.startswith(f'{self.year}.admissions'):
-				strip_key = len(f'{self.year}.admissions') + 1
-				admissions_dict[key[strip_key:]] = self.data[key]
-		return Admissions(data=admissions_dict)
+		data = self.__clean_dict(category='admissions')
+		return Admissions(data=data)
 
 	@property
 	def student(self) -> StudentBody:
-		student_dict = {}
-		keys_list = list(self.data.keys())
-
-		key: str
-		for key in keys_list:
-			if key.startswith(f'{self.year}.student'):
-				strip_key = len(f'{self.year}.student') + 1
-				student_dict[key[strip_key:]] = self.data[key]
-		return StudentBody(data=student_dict)
+		data = self.__clean_dict(category='student')
+		return StudentBody(data=data)
 
 	@property
 	def cost(self) -> Tuition:
-		cost_dict = {}
-		keys_list = list(self.data.keys())
-
-		key: str
-		for key in keys_list:
-			if key.startswith(f'{self.year}.cost'):
-				strip_key = len(f'{self.year}.cost') + 1
-				cost_dict[key[strip_key:]] = self.data[key]
-		return Tuition(data=cost_dict)
+		data = self.__clean_dict(category='cost')
+		return Tuition(data=data)
 
 	def __str__(self) -> str:
 		return f'{self.data[f"{self.year}.school.name"]} - {self.data[f"id"]}'
