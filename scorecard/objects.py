@@ -10,6 +10,16 @@ class Admissions:
 		"""Admission rate"""
 		return round(self.data['admission_rate.overall'] * 100, 3)
 
+	# Test related properties
+	@property
+	def test_required(self) -> bool:
+		"""Test score requirements for admission"""
+		num = self.data['test_requirements']
+		if num == 1:
+			return True
+		else:
+			return False
+
 	@property
 	def act_scores(self) -> Dict[str, int]:
 		"""Midpoint of the ACT scores"""
