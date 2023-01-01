@@ -21,7 +21,7 @@ sc = ScoreCard(API_KEY='your api key')
 Search for a college
 
 ```python
-colleges = sc.search('Howard University')
+colleges = sc.search('Howard')
 ```
 
 `search()` will return a list of `College` objects.
@@ -31,3 +31,5 @@ You can also search for a specific college using it's id.
 ```python
 howard = sc.search(id=131520)
 ```
+
+For further information you can read the [documentation](https://scorecard.readthedocs.io/en/latest/)/

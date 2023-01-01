@@ -6,9 +6,20 @@
 Welcome to scorecard's documentation!
 =====================================
 
+A python library for collegescorecard.ed.gov
+
+Contents:
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+
+   install.rst
+   getting_started.rst
+
+Module Reference:
+
+.. toctree:: 
+   :maxdepth: 2
 
    modules
 
@@ -16,5 +27,4 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
