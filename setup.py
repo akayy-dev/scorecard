@@ -14,5 +14,6 @@ setup(
 	url='https://github.com/ahoodatheguy/scorecard',
 	packages=['scorecard'],
 	long_description=long_desc,
-	long_description_content_type='text/markdown'
+	long_description_content_type='text/markdown',
+	install_requires = ['college-scorecard']
 )
