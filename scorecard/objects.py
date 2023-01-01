@@ -2,6 +2,7 @@ from typing import Dict
 
 
 class Admissions:
+	"""Data relating to a colleges admissions"""
 	def __init__(self, data) -> None:
 		self.data = data
 
@@ -54,7 +55,11 @@ class Tuition:
 		return self.data['avg_net_price.consumer.overall_median']
 
 	def get_tuition(self, in_state=True) -> int:
-		"""Tuition and fees"""
+		"""Average cost of a year at the college.
+		
+		:params in_state: Return a colleges in-state tuition or out of state tuition, defaults to true.
+		:type in_state: bool, optional
+		"""
 		if in_state:
 			return self.data['tuition.in_state']
 		else:
@@ -76,6 +81,7 @@ class StudentBody:
 
 	@property
 	def racial_diversity(self) -> Dict[str, float]:
+		"""Racial diversity statistics, rounded to 2 decimal places."""
 		# Student data, rounded to 2 decimal places.
 		white = round(self.data['demographics.race_ethnicity.white'] * 100, 3)
 		black = round(self.data['demographics.race_ethnicity.black'] * 100, 3)
@@ -102,7 +108,7 @@ class StudentBody:
 
 	@property
 	def gender_breakdown(self) -> Dict[str, float]:
-		"""Return the gender breakdown of a college"""
+		"""Return the gender breakdown of a college."""
 		men = round(self.data['demographics.men'] * 100, 3)
 		women = round(self.data['demographics.women'] * 100, 3)
 		return {'men': men, 'women': women}
@@ -114,7 +120,7 @@ class College:
 		self.year = year
 
 	def __clean_dict(self, category: str) -> dict:
-		"""Strip the year and category from a dictionarys keys"""
+		"""Strip the year and category from a dictionarys keys."""
 		clean_dict = {}
 		keys_list = list(self.data.keys())
 

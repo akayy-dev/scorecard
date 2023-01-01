@@ -4,11 +4,14 @@ from typing import List
 import requests
 
 from scorecard.exceptions import InvalidAPIKey, MissingAPIKey
-
-from .objects import College
+from scorecard.objects import College
 
 
 class ScoreCard:
+	""" This is the main class used to search for colleges and their data.
+
+	:param API_KEY: The API key used to interact with college scorecards API.
+	"""
 	def __init__(self, API_KEY: str) -> None:
 		self.API_KEY = API_KEY
 
@@ -33,7 +36,15 @@ class ScoreCard:
 			pass
 
 	def search(self, name: str, page=0, per_page=20, year='latest') -> List[College]:
-		"""Search for a college by name."""
+		"""Search for a college by name.
+		
+		:params name: The name of the target college.
+		:params page: What page to query the data from
+		:params per_page: How many results to show per page, defaults to 20
+		:type per_page: int, optional
+		:params year: What year to retrieve the data from, defaults to latest availible year.
+		:type year: str, optional
+		"""
 		params = {
 			'api_key': self.API_KEY,
 			'school.name': name,
@@ -52,7 +63,12 @@ class ScoreCard:
 		return college_list
 
 	def get_by_id(self, id: int, year='latest') -> College:
-		"""Query a college by it's id."""
+		"""Query a college by it's id.
+		
+		:params id: The id of the college you want to search.
+		:params year: What year to retrieve the data from, defaults to latest availible year.
+		:type year: str, optional
+		"""
 		params = {
 			'api_key': self.API_KEY,
 			'_fields': f'{year}.school,{year}.student,{year}.admissions,{year}.cost,id',
