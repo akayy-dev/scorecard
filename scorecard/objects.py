@@ -50,6 +50,11 @@ class Tuition:
 		return self.data['roomboard.oncampus']
 
 	@property
+	def booksupply(self) -> int:
+		"""Cost of attendance: estimated books and supplies"""
+		return self.data['booksupply']
+
+	@property
 	def overall_median(self) -> int:
 		"""Overall median for average net price"""
 		return self.data['avg_net_price.consumer.overall_median']
@@ -77,6 +82,7 @@ class StudentBody:
 
 	@property
 	def graduate_size(self) -> int:
+		"""Number of graduate students """
 		return self.data['grad_students']
 
 	@property
