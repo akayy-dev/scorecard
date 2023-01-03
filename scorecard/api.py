@@ -39,7 +39,7 @@ class ScoreCard:
 		"""Search for a college by name.
 		
 		:param name: The name of the target college
-		:type page: str, optional
+		:type name: str, optional
 		:param page: What page to query the data from
 		:type page: int, optional
 		:param per_page: How many results to show per page, defaults to 20
