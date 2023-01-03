@@ -32,4 +32,4 @@ You can also search for a specific college using it's id.
 howard = sc.search(id=131520)
 ```
 
-For further information you can read the [documentation](https://scorecard.readthedocs.io/en/latest/)/
+For further information you can read the [documentation](https://scorecard.readthedocs.io/en/latest/)
