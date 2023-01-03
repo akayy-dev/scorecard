@@ -138,6 +138,38 @@ class College:
 		return clean_dict
 
 	@property
+	def accreditor(self) -> str:
+		"""Accreditor for institution """
+		return self.data[f'{self.year}.school.accreditor']
+		
+	@property
+	def ownership(self) -> int:
+		"""Control of institution, returns either 1, 2, or 3. \n
+			1 - Public \n
+			2 - Private, Nonprofit \n
+			3 - Proprietary"""
+		return self.data[f'{self.year}.school.ownership']
+	
+	@property
+	def operating(self) -> bool:
+		"""Flag for currently operating institution"""
+		flag = self.data[f'{self.year}.school.operating']
+
+		if flag:
+			return True
+		else:
+			return False
+	
+	@property
+	def endowment_begin(self) -> int:
+		"""Value of school's endowment at the beginning of the fiscal year """
+		return self.data[f'{self.year}.school.endowment.begin']
+	@property
+	def endowment_end(self) -> int:
+		"""Value of school's endowment at the end of the fiscal year """
+		return self.data[f'{self.year}.school.endowment.end']
+
+	@property
 	def name(self) -> str:
 		"""Institution name"""
 		return self.data[f'{self.year}.school.name']
