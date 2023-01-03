@@ -35,19 +35,23 @@ class ScoreCard:
 		except KeyError:
 			pass
 
-	def search(self, name: str, page=0, per_page=20, year='latest', hbcu: bool = None, size_range: list = [0, None]) -> List[College]:
+	def search(self, name: str = None, page=0, per_page=20, year='latest', hbcu: bool = None, size_range: list = [0, None], ownership: int = None) -> List[College]:
 		"""Search for a college by name.
 		
-		:params name: The name of the target college
-		:params page: What page to query the data from
-		:params per_page: How many results to show per page, defaults to 20
+		:param name: The name of the target college
+		:type page: str, optional
+		:param page: What page to query the data from
+		:type page: int, optional
+		:param per_page: How many results to show per page, defaults to 20
 		:type per_page: int, optional
-		:params year: What year to retrieve the data from, defaults to latest availible year
+		:param year: What year to retrieve the data from, defaults to latest availible year
 		:type year: str, optional
 		:param hbcu: Filter results by whether or not it's an HBCU
 		:type hbcu: bool, optional
 		:param size_range: Limit results based on student population. List is structured as [min, max]
 		:type size_range: list, optional
+		:param ownership: Filter based on the ownership status of the college
+		:type ownership: int, optional
 		"""
 		params = {
 			'api_key': self.API_KEY,
@@ -57,7 +61,8 @@ class ScoreCard:
 			'_fields': f'{year}.school,{year}.student,{year}.admissions,{year}.cost,id',
 			# User filters
 			'school.minority_serving.historically_black': None if hbcu is None else int(hbcu),
-			'student.size__range': f'{size_range[0]}..{"" if size_range[1] is None else size_range[1]}'
+			'student.size__range': f'{size_range[0]}..{"" if size_range[1] is None else size_range[1]}',
+			'school.ownership': ownership
                     }
 		r = requests.get(
 			'https://api.data.gov/ed/collegescorecard/v1/schools.json', params=params)
@@ -72,8 +77,8 @@ class ScoreCard:
 	def get_by_id(self, id: int, year='latest') -> College:
 		"""Query a college by it's id.
 		
-		:params id: The id of the college you want to search.
-		:params year: What year to retrieve the data from, defaults to latest availible year.
+		:param id: The id of the college you want to search.
+		:param year: What year to retrieve the data from, defaults to latest availible year.
 		:type year: str, optional
 		"""
 		params = {

@@ -62,7 +62,7 @@ class Tuition:
 	def get_tuition(self, in_state=True) -> int:
 		"""Average cost of a year at the college.
 		
-		:params in_state: Return a colleges in-state tuition or out of state tuition, defaults to true.
+		:param in_state: Return a colleges in-state tuition or out of state tuition, defaults to true.
 		:type in_state: bool, optional
 		"""
 		if in_state:
@@ -147,7 +147,7 @@ class College:
 		"""Control of institution, returns either 1, 2, or 3. \n
 			1 - Public \n
 			2 - Private, Nonprofit \n
-			3 - Proprietary"""
+			3 - Private, for-profit"""
 		return self.data[f'{self.year}.school.ownership']
 	
 	@property
