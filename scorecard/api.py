@@ -35,7 +35,7 @@ class ScoreCard:
 		except KeyError:
 			pass
 
-	def search(self, name: str = None, page=0, per_page=20, year='latest', hbcu: bool = None, size_range: list = [0, None], ownership: int = None) -> List[College]:
+	def search(self, name: str = None, page=0, per_page=20, year='latest', filters: dict = None) -> List[College]:
 		"""Search for a college by name.
 		
 		:param name: The name of the target college
@@ -46,24 +46,20 @@ class ScoreCard:
 		:type per_page: int, optional
 		:param year: What year to retrieve the data from, defaults to latest availible year
 		:type year: str, optional
-		:param hbcu: Filter results by whether or not it's an HBCU
-		:type hbcu: bool, optional
-		:param size_range: Limit results based on student population. List is structured as [min, max]
-		:type size_range: list, optional
-		:param ownership: Filter based on the ownership status of the college
-		:type ownership: int, optional
+		:param filters: Additional filters to apply to the search (see https://collegescorecard.ed.gov/assets/CollegeScorecardDataDictionary.xlsx)
+		:type filters: dict, optional
 		"""
 		params = {
 			'api_key': self.API_KEY,
 			'school.name': name,
+			'_fields': f'{year}.school,{year}.student,{year}.admissions,{year}.cost,id',
 			'page': page,
 			'per_page': per_page,
-			'_fields': f'{year}.school,{year}.student,{year}.admissions,{year}.cost,id',
-			# User filters
-			'school.minority_serving.historically_black': None if hbcu is None else int(hbcu),
-			'student.size__range': f'{size_range[0]}..{"" if size_range[1] is None else size_range[1]}',
-			'school.ownership': ownership
-                    }
+			}
+
+		if filters:
+			params.update(filters)
+
 		r = requests.get(
 			'https://api.data.gov/ed/collegescorecard/v1/schools.json', params=params)
 		results = r.json()['results']
