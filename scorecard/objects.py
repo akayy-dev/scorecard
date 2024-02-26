@@ -89,17 +89,15 @@ class StudentBody:
 	def racial_diversity(self) -> Dict[str, float]:
 		"""Racial diversity statistics, rounded to 2 decimal places."""
 		# Student data, rounded to 2 decimal places.
-		white = round(self.data['demographics.race_ethnicity.white'] * 100, 3)
-		black = round(self.data['demographics.race_ethnicity.black'] * 100, 3)
-		hispanic = round(self.data['demographics.race_ethnicity.hispanic'] * 100, 3)
-		asian = round(self.data['demographics.race_ethnicity.asian'] * 100, 3)
-		aian = round(self.data['demographics.race_ethnicity.aian'] * 100, 3)
-		nhpi = round(self.data['demographics.race_ethnicity.nhpi'] * 100, 3)
-		biracial = round(
-			self.data['demographics.race_ethnicity.two_or_more'] * 100, 3)
-		alien = round(
-			self.data['demographics.race_ethnicity.non_resident_alien'] * 100, 3)
-		unknown = round(self.data['demographics.race_ethnicity.unknown'] * 100, 3)
+		white = self.data['demographics.race_ethnicity.white']
+		black = self.data['demographics.race_ethnicity.black']
+		hispanic = self.data['demographics.race_ethnicity.hispanic']
+		asian = self.data['demographics.race_ethnicity.asian']
+		aian = self.data['demographics.race_ethnicity.aian']
+		nhpi = self.data['demographics.race_ethnicity.nhpi']
+		biracial =  self.data['demographics.race_ethnicity.two_or_more']
+		alien =  self.data['demographics.race_ethnicity.non_resident_alien']
+		unknown = self.data['demographics.race_ethnicity.unknown']
 
 		return {'white': white,
                     'black': black,
