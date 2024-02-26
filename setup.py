@@ -9,7 +9,7 @@ setup(
 	name='college-scorecard',
 	description='A python library for collegescorecard.ed.gov',
 	author='Ahadu Kebede',
-	version='1.4',
+	version='2.0',
 	author_email='ahadukebede@gmail.com',
 	url='https://github.com/ahoodatheguy/scorecard',
 	packages=['scorecard'],
